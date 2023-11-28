@@ -88,7 +88,7 @@
                             <div class="col-sm-3">
                                 <label for="amount" class="form-label">Amount (In Paisa)</label>
                                 <input type="text" name="amount_in_paisa" class="form-control" id="amount"
-                                    placeholder="Amount (In Paisa)" value="10000" required />
+                                    placeholder="Amount (In Paisa)" value="4000000" required />
                             </div>
 
                             <div class="col-sm-6">
@@ -97,18 +97,21 @@
                                     placeholder="Callback URL" value="http://localhost:3000/callback" required />
                             </div>
 
-                            <div class="col-sm-3">
-                                <label for="product_code" class="form-label">Product Code</label>
-                                <input type="text" name="product_code" class="form-control" id="product_code"
-                                    placeholder="Product Code" value="testproduct02" required />
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="product_amount" class="form-label">Product Amount</label>
-                                <input type="text" name="product_amount" class="form-control" id="product_amount"
-                                    placeholder="Product Amount" value="10000" required />
-                            </div>
-
+                            <div class="col-sm-6">
+                                <label for="response_data" class="form-label">Product Details</label>
+                                <textarea name="response_data" id="response_data" class="form-control" rows="10">
+                                  [
+                                    {
+                                      "product_code": "testSKU1",
+                                      "product_amount": "2000000"
+                                    },
+                                    {
+                                      "product_code": "testSKU2",
+                                      "product_amount": "2000000"
+                                    }
+                                  ]
+                                </textarea>
+                              </div>
                             <div class="col-sm-6">
                                 <label for="callback_url" class="form-label">Payment Mode</label>
                                 <div class="dropdown">

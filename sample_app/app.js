@@ -83,21 +83,24 @@ app.post("/submit", async (req, res) => {
       udf_field_5: req.body.udf5,
     };
 
-    const product_details = [
-      {
-        product_code: req.body.product_code,
-        product_amount: req.body.product_amount,
-      },
-    ];
+    const productData = req.body.response_data;
+
+    const cleanedString = productData.replace(/\\r\\n/g, "");
+    const product_details = JSON.parse(cleanedString);
+
+    console.log(product_details);
 
     const payment_mode_array = req.body.payment_mode;
 
     const payment_mode = {};
 
-    payment_mode_array.forEach((mode) => {
-      payment_mode[mode] = true;
-    });
-
+    if (Array.isArray(payment_mode_array)) {
+      payment_mode_array.forEach((mode) => {
+        payment_mode[mode] = true;
+      });
+    } else if (payment_mode_array) {
+      payment_mode[payment_mode_array] = true;
+    }
     console.log(payment_mode);
 
     const pinelab_function = pinelab.default(
@@ -124,9 +127,9 @@ app.post("/submit", async (req, res) => {
       res.send("Invalid response or missing URL.");
     }
   } catch (error) {
-    console.log(error);
-    const responseMessage = error.respone_message || "Unknown error";
-    const responseCode = error.respone_code || -1;
+    const errorMsg = JSON.parse(error.message);
+    const responseMessage = errorMsg["respone_message"] ?? "UnKnown Error";               
+    const responseCode = errorMsg["respone_code"] ?? -1;                                                        
 
     res.status(500).json({
       respone_message: responseMessage,
@@ -139,9 +142,15 @@ app.post("/callback", (req, res) => {
   try {
     console.log(req.body);
     res.status(200).send(req.body);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Error in callback response:", error);
+  } catch (error){
+    const errorMsg = JSON.parse(error.message);
+    const responseMessage = errorMsg["respone_message"] ?? "UnKnown Error";               
+    const responseCode = errorMsg["respone_code"] ?? -1;                                                        
+
+    res.status(500).json({
+      respone_message: responseMessage,
+      respone_code: responseCode,
+    });
   }
 });
 
@@ -171,8 +180,14 @@ app.post("/fetch", async (req, res) => {
 
     res.status(200).send(fetch_response);
   } catch (error) {
-    console.error("Error fetching payment details:", error);
-    res.status(500).send("Error fetching payment details:", error);
+    const errorMsg = JSON.parse(error.message);
+    const responseMessage = errorMsg["respone_message"] ?? "UnKnown Error";               
+    const responseCode = errorMsg["respone_code"] ?? -1;                                                        
+
+    res.status(500).json({
+      respone_message: responseMessage,
+      respone_code: responseCode,
+    });
   }
 });
 
@@ -216,8 +231,14 @@ app.post("/hashVerify", async (req, res) => {
 
     res.status(200).send(isSame);
   } catch (error) {
-    console.error("fail hash verification:", error);
-    res.status(500).send("fail hash verification:", error);
+    const errorMsg = JSON.parse(error.message);
+    const responseMessage = errorMsg["respone_message"] ?? "UnKnown Error";               
+    const responseCode = errorMsg["respone_code"] ?? -1;                                                        
+
+    res.status(500).json({
+      respone_message: responseMessage,
+      respone_code: responseCode,
+    });
   }
 });
 
@@ -230,21 +251,16 @@ app.post("/emi", async (req, res) => {
     const merchant_access_code = req.body.access_code;
     const is_test = req.body.pg_mode;
     const merchant_secret = req.body.secret;
+    const productData = req.body.response_data;
+
+    const cleanedString = productData.replace(/\\r\\n/g, "");
+    const productsDetail = JSON.parse(cleanedString);
+
+    console.log(productsDetail);
 
     const txn_data = {
       amount_in_paisa: req.body.amount_in_paisa,
     };
-
-    const productsDetail = [
-      {
-        product_code: req.body.product_code1,
-        product_amount: req.body.product_amount1,
-      },
-      {
-        product_code: req.body.product_code2,
-        product_amount: req.body.product_amount2,
-      },
-    ];
 
     const pinelab_function = pinelab.default(
       merchant_id,
@@ -258,8 +274,14 @@ app.post("/emi", async (req, res) => {
     );
     res.status(200).send(emi_response);
   } catch (error) {
-    console.error("Error fetching emi details:", error);
-    res.status(500).send("Error fetching emi details:", error);
+    const errorMsg = JSON.parse(error.message);
+    const responseMessage = errorMsg["respone_message"] ?? "UnKnown Error";               
+    const responseCode = errorMsg["respone_code"] ?? -1;                                                        
+
+    res.status(500).json({
+      respone_message: responseMessage,
+      respone_code: responseCode,
+    });
   }
 });
 

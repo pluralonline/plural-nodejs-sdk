@@ -32,7 +32,7 @@
       border-radius: 5px;
     }
 
-    .error{
+    .error {
       border: 2px solid red;
       padding: 10px;
       border-radius: 5px;
@@ -95,28 +95,20 @@
                   placeholder="Amount (In Paisa)" value="4000000" required />
               </div>
 
-              <div class="col-sm-3">
-                <label for="product_code" class="form-label">Product Code 1</label>
-                <input type="text" name="product_code1" class="form-control" id="product_code"
-                  placeholder="Product Code" value="testSKU1" required />
-              </div>
-
-              <div class="col-sm-3">
-                <label for="product_amount" class="form-label">Product Amount 1</label>
-                <input type="text" name="product_amount1" class="form-control" id="product_amount"
-                  placeholder="Product Amount" value="2000000" required />
-              </div>
-
-              <div class="col-sm-3">
-                <label for="product_code" class="form-label">Product Code 2</label>
-                <input type="text" name="product_code2" class="form-control" id="product_code"
-                  placeholder="Product Code" value="testSKU2" required />
-              </div>
-
-              <div class="col-sm-3">
-                <label for="product_amount" class="form-label">Product Amount 2</label>
-                <input type="text" name="product_amount2" class="form-control" id="product_amount"
-                  placeholder="Product Amount" value="2000000" required />
+              <div class="col-sm-12">
+                <label for="response_data" class="form-label">Product Details</label>
+                <textarea name="response_data" id="response_data" class="form-control" rows="10">
+                  [
+                    {
+                      "product_code": "testSKU1",
+                      "product_amount": "2000000"
+                    },
+                    {
+                      "product_code": "testSKU2",
+                      "product_amount": "2000000"
+                    }
+                  ]
+                </textarea>
               </div>
             </div>
 
@@ -150,17 +142,31 @@
           success: function (data) {
             console.log(data);
             if (Object.keys(data).length > 0) {
+              response.classList.remove("error");
               response.classList.add("response");
             }
             let prettyJson = JSON.stringify(data, null, 2);
 
             $("#response").html("<pre>" + prettyJson + "</pre>");
-
           },
           error: function (xhr, textStatus, errorThrown) {
-                    console.error("Error in AJAX request:", textStatus, errorThrown)
-                    response.classList.add("error");
-                    $("#response").html("<pre>Error: " + errorThrown + "</pre>");
+            console.error("Error in AJAX request:", textStatus, errorThrown);
+            response.classList.add("error");
+            if (xhr.responseJSON) {
+              const errorMessage =
+                xhr.responseJSON.respone_message ||
+                "Unknown Error";
+              const errorCode = xhr.responseJSON.respone_code || -40;
+              $("#response").html(
+                "<pre>Error Code: " +
+                errorCode +
+                ", Message: " +
+                errorMessage +
+                "</pre>"
+              );
+            } else {
+              $("#response").html("<pre>Error: " + errorThrown + "</pre>");
+            }
           },
         });
       });
