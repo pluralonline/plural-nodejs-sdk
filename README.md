@@ -3,6 +3,8 @@
 This SDK offers simple to use api for integrating PineLabs api in your node applications. It provide several easy
 methods for creating, fetching orders and calculate EMIs and verify hash.
 
+A step by step guide on the usage is available here: https://www.youtube.com/watch?v=nW4Axoz292c&ab_channel=PluralbyPineLabs
+
 ## Installation
 
 ### Prerequisites
