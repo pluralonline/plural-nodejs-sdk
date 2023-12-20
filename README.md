@@ -1,9 +1,11 @@
 # PineLabs Node JS SDK
 
-This SDK offers simple to use api for integrating PineLabs api in your node applications. It provide several easy
-methods for creating, fetching orders and calculate EMIs and verify hash.
+This SDK offers a simple-to-use API for integrating Pine Labs API in your node applications. It provides several easy
+methods for creating, fetching orders, calculating EMIs, and verifying hash.
 
-A step by step guide on the usage is available here: https://www.youtube.com/watch?v=nW4Axoz292c&ab_channel=PluralbyPineLabs
+A step-by-step guide on the usage is available here: https://www.youtube.com/watch?v=nW4Axoz292c&ab_channel=PluralbyPineLabs
+
+Sample app: https://github.com/pluralonline/plural-nodejs-sdk-sampleapp
 
 ## Installation
 
@@ -14,7 +16,7 @@ Before installing the Node SDK, make sure you meet the following prerequisites:
 1. NODE version 18.17.1 or higher
 2. NPM version 9.6.7 or higher
 
-In order to install this SDK locally from a folder you'll need to run the following commands. It will link and install
+To install this SDK locally from a folder you'll need to run the following commands. It will link and install
 the SDK in your node project.
 
 ```text
@@ -26,14 +28,14 @@ npm install "../path-to-sdk-folder"
 
 ## Usage For SDK
 
-### Create Instance of PineLabs SDK
+### Create an Instance of Pine Labs SDK
 
 Require pinelabs sdk and call the `default` method on it. It takes 4 parameters which are as follows:
 
-1. Merchant ID (string) : Merchant ID provided by PineLabs
-2. Merchant Access Code (string) : Merchant Access Code Provided by PineLabs
-3. Merchant Secret (string) : Merchant Secret
-4. isTest (boolean) : If using test mode then set this to `true`
+1. Merchant ID (string): Merchant ID provided by PineLabs
+2. Merchant Access Code (string): Merchant Access Code Provided by PineLabs
+3. Merchant Secret (string): Merchant Secret
+4. isTest (boolean): If using test mode then set this to `true`
 
 ```javascript
     const pinelabs = require("pinelabs_node").default("{merchant_id}", "merchant_access_code", "{merchant_secret}", isTest) 
@@ -43,7 +45,7 @@ Require pinelabs sdk and call the `default` method on it. It takes 4 parameters 
 
 ### Create Order
 
-This section explains how to create order for payment processing. There are a couple of things required in order to
+This section explains how to create an order for payment processing. There are a couple of things required to
 create an order.
 
 ### Parameters  Required & Optional
@@ -109,7 +111,7 @@ const udf_data = {
 ```
 
 ```javascript
-    // Payment Modes That Needs To Be Shown ( Mandatory )
+    // Payment Modes That Need to Be Shown ( Mandatory )
 const payment_mode = {
     netbanking: true, // Boolean
     cards: true, // Boolean
@@ -185,7 +187,7 @@ Fatal error: Uncaught Exception: MERCHANT PASSWORD DOES NOT MATCH
 
 Using the instance of the SDK we created above we will call the `.fetch()` method on the `payment` interface for
 fetching
-an order details with the provided transaction id and transaction type. It takes the following positional arguments
+an order details with the provided transaction ID and transaction type. It takes the following positional arguments
 
 1. Transaction ID
 2. Transaction Type
@@ -373,8 +375,7 @@ Fatal error: Uncaught Exception: INVALID DATA,MISMATCH_IN_TOTAL_CART_AMOUNT_AND_
 
 ### Verify Hash
 
-Using the instance of the SDK we created above we will call the `.verify()` method on the `hash` interface for
-verifying
+Using the instance of the SDK we created above we will call the `.verify()` method on the `hash` interface to verify
 a hash received in the response of callback and webhooks. It takes the following positional arguments
 
 1. Hash Received in Response ( `DIA_SECRET` )
@@ -389,7 +390,7 @@ console.log(isVerified);
 
 ### Note
 
-Please note no additional charges like TDR, GST etc are handled in our Plugins and the same
-need to be manually handled at merchant end . 
+Please note no additional charges like TDR, GST, etc are handled in our SDKs and the same
+need to be manually handled at the merchant end. 
 
 
