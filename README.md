@@ -388,6 +388,30 @@ console.log(isVerified);
 
 ---
 
+# Integration Best Practices
+
+Best practices to put into effect for a smooth and secure integration with Plural:
+
+1.	 Signature Verification to avoid data tampering:
+This is a mandatory step to confirm the authenticity of the details returned to you on the return URL for successful payments.
+- Convert the response received on the return URL into a string (remove secret and secret_type params)
+- Sort the string alphabetically
+- Hash the payload with your secret key using SHA256
+- Match the generated signature with the one received in the response from Plural
+
+2.	 Check payment status before providing services:
+Check if the payment status is in the success state .i.e. : ppc_Parent_TxnStatus = 4 and ppc_ParentTxnResponseCode = 1 before providing the services to the customers
+- One Inquiry API call (Fetch payment using ppc_UniqueMerchantTxnID) right after the Transaction
+- Run Inquiry API periodically for the payments in initiated state
+
+3.	 Webhook Implementation:
+Implement webhooks to avoid callback failures (drop offs due to connectivity/network issues)
+- Payment.captured
+- Payment.failed
+
+4.	TLS Version
+We support TLS_v_1.2 and above which is strongly recommended. Kindly ensure you are using higher TLS versions to avoid any transaction failures.
+
 ### Note
 
 Please note no additional charges like TDR, GST, etc are handled in our SDKs and the same
